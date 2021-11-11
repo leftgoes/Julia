@@ -6,41 +6,6 @@ from lmfit import Model
 from inspect import getsource
 
 
-class CalculateJulia:
-    def __init__(self, f, c: complex, iterations: int, magnitude: float, extra: int):
-        self.f = f
-        self.c = c
-        self.iterations = iterations
-        self.magnitude = magnitude
-        self.extra = extra
-
-    def calculate_i(self, z: complex) -> tuple[complex, int]:
-        for i in range(self.iterations):
-            z = self.f(z=z, c=self.c)
-            if abs(z) > self.magnitude:
-                for _ in range(self.extra):
-                    z = self.f(z=z, c=self.c)
-                return z, i
-        return z, 0
-
-
-class CalculateMandelbrot:
-    def __init__(self, f, iterations: int, magnitude: float, extra: int):
-        self.f = f
-        self.iterations = iterations
-        self.magnitude = magnitude
-        self.extra = extra
-
-    def calculate_i(self, c: complex) -> tuple[complex, int]:
-        z = 0
-        for i in range(self.iterations):
-            z = self.f(z=z, c=c)
-            if abs(z) > self.magnitude:
-                for _ in range(self.extra):
-                    z = self.f(z=z, c=c)
-                return z, i
-        return z, 0
-
 
 class TestThreading:
     def __init__(self, obj, n: int, threads_range: tuple):
