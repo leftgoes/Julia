@@ -6,10 +6,8 @@ import os
 import time
 from typing import Callable
 
-from objects import CalculateMandelbrot, CalculateJulia, TestThreading, NoDataException
 import functions
-
-from collections import Counter
+from objects import *
 
 
 class Julia:
