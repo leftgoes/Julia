@@ -65,7 +65,12 @@ class Julia:
         if imag is None:
             imag = self.imag
         return round(w * abs(self.diff(imag) / self.diff(real)))
-
+    
+    @property
+    def h_mirrored(self):
+        im1, im2 = self.imag
+        return round(self.h() * min(abs(im1), abs(im2))/self.diff(self.imag))
+    
     @property
     def flip(self) -> tuple[bool, bool]:
         (re1, re2), (im1, im2) = self.real, self.imag
@@ -231,16 +236,19 @@ class Julia:
         if self.info and n == check_n:
             print(f'\r[INFO] calculate | {functions.progressbar(progress_total, delta_progressbar)} | waiting for other threads..{60*" "}', end='')
         return arr, checked
-
-    def calculate(self, size_offset: int = 0) -> float:
+    
+    def _calculate(self, size_offset: int):
         self.checked = []
 
         self.get_render_areas()
         self.squares = []
         for area in self.render_areas:
             w, h = area[3]
-            self.squares.append(self.get_squares(w, h, size_offset=2))
-
+            self.squares.append(self.get_squares(w, h, size_offset=size_offset))
+    
+    def calculate(self, size_offset: int = 0) -> float:
+        self._calculate(size_offset)
+        
         if self.info:
             print(f'[INFO] calculate | {self.threads} threads | size = (w={self.w}, h={self.h() + abs(self.h_mirrored)}) | iterations = {self.max_iterations}')
 
@@ -266,7 +274,7 @@ class Julia:
             print(f'\r[INFO] calculate | finished in {round(self.elapsed, 2)}s' + 60*' ')
         return self.elapsed
 
-    def arr2img(self, arr: np.ndarray, depth: int, percentile: float) -> np.ndarray:
+    def normalize_arr(self, arr: np.ndarray, depth: int, percentile: float) -> np.ndarray:
         if arr.max() == 0.0:
             raise NoDataException
         if percentile == 0.0:
@@ -282,7 +290,7 @@ class Julia:
         return arr
 
     def show(self, percentile: float = 3.):
-        arr = self.arr2img(self.arr, 8, percentile)
+        arr = self.normalize_arr(self.arr, 8, percentile)
         arr *= 255/arr.max()
         cv2.imshow(repr(self), arr.astype(np.uint8))
         if self.info:
@@ -296,7 +304,7 @@ class Julia:
         if dtype is None:
             raise ValueError(f"'depth' must be 8 or 16 not {depth}")
 
-        img_arr = self.arr2img(self.arr, depth, percentile)
+        img_arr = self.normalize_arr(self.arr, depth, percentile)
         if boxes == 0.:
             img_arr *= 2 ** depth - 1
         else:
@@ -304,7 +312,7 @@ class Julia:
             boxes_arr = functions.boxes2arr(self.w, self.h(), self.checked, self.info)
             if self.info:
                 print(f'\r[INFO] boxes2arr | finished in {round(time.time() - start, 2)}s')
-            boxes_arr = self.arr2img(boxes_arr, depth, 0.0)
+            boxes_arr = self.normalize_arr(boxes_arr, depth, 0.0)
             img_arr = (1 - boxes) * img_arr + boxes * boxes_arr
             img_arr *= 2 ** depth - 1
             filename += f'; b{round(100 * boxes)}'
@@ -354,15 +362,144 @@ class Mandelbrot(Julia):
         if self.imag[0] == -self.imag[1]:
             return np.concatenate((main_arr, main_arr[::-1, ]))
         elif np.sign(self.imag[0]) + np.sign(self.imag[1]) == 0:
-            h_mirrored = round(self.h() * min(self.imag, key=lambda i: abs(i))/self.diff(self.imag))
-            return np.concatenate((main_arr, main_arr[::-1, ][:h_mirrored, ]))
+            return np.concatenate((main_arr, main_arr[::-1, ][:self.h_mirrored, ]))
         else:
             return main_arr
+
+        
+class Nebulabrot(Mandelbrot):
+    def __init__(self, f: Callable, k: int = 0, *args, anti: bool = False, **kwargs):
+        super().__init__(f, *args, **kwargs)
+        self.k = k
+        self.anti = anti
+        self.pixels: list[set, int]
+
+    @property
+    def type(self) -> str:
+        lines = getsource(self.f).splitlines()
+        for line in lines:
+            if line.find('return') != -1:
+                text = f"{lines[0][4:-1]} = {line.replace('    ', '')[7:].replace('**', '^').replace('*', '·')}"
+                return f"Buddhabrot; {text}"
+        return 'Buddhabrot'
+
+    def calculate_square(self, pixels: set, not_pixels: set, x0: int, y0: int, size: int) -> set:
+        # get Δx, Δy
+        delta_x, delta_y = self.delta
+        real, imag, _, shape = self.render_area
+        if size == 1:
+            if (x0, y0) in pixels or (x0, y0) in not_pixels:
+                return set()
+            else:
+                z = functions.xy2complex(x0 + delta_x, y0 + delta_y, real, imag, shape)
+                z, i = self.calculate_pixel(z)
+                return {(x0, y0)} if (i == 0 and self.anti) or (i != 0 and not self.anti) else set()
+
+        right = [(x0 + size - 1, y0 + i) for i in range(1, size)]
+        top = [(x0 + i, y0) for i in range(1, size)]
+        left = [(x0, y0 + i) for i in range(size - 1)]
+        bottom = [(x0 + i, y0 + size - 1) for i in range(size - 1)]
+
+        for x, y in left + right + top + bottom:
+            if (x, y) in pixels:
+                continue
+            elif (x, y) in not_pixels:
+                break
+            else:
+                z = functions.xy2complex(x + delta_x, y + delta_y, real, imag, shape)
+                z, iterations = self.calculate_pixel(z)
+                # if (iterations == 0 and self.anti) or (iterations != 0 and not self.anti):
+                if self.k < iterations:
+                    pixels.update({(x, y)})
+                else:
+                    not_pixels.update({(x, y)})
+                    break
+        else:
+            for x in range(size):
+                for y in range(size):
+                    pixels.update({(x + x0, y + y0)})
+            return pixels
+
+        new_size = size // 2
+        northwest = self.calculate_square(pixels, not_pixels, x0, y0, new_size)
+        northeast = self.calculate_square(pixels, not_pixels, x0 + new_size, y0, new_size)
+        southwest = self.calculate_square(pixels, not_pixels, x0, y0 + new_size, new_size)
+        southeast = self.calculate_square(pixels, not_pixels, x0 + new_size, y0 + new_size, new_size)
+        for q_pixels in [northwest, northeast, southwest, southeast]:
+            pixels.update(q_pixels)
+        return pixels
+
+    def _calculate(self, size_offset: int):
+        self.get_render_areas()
+        self.squares = []
+        for area in self.render_areas:
+            w, h = area[3]
+            self.squares.append(self.get_squares(w, h, size_offset=size_offset))
+
+    def calculate_pixel(self, c: complex) -> tuple[complex, int]:
+        z = 0
+        for i in range(self.max_iterations):
+            z = self.f(z=z, c=c)
+            if not (self.real[0] < z.real < self.real[1] and self.imag[0] < z.imag < self.imag[1]):
+                return z, i
+        return z, 0
+
+    def calculate_thread(self, n: int) -> tuple[np.ndarray, list]:  # thread with square_tiling enabled
+        delta_x, delta_y = self.delta
+        delta_progressbar = 8 + len(str(self.threads))
+        progress_delta, check_n, len_render_areas = delta_x + delta_y / self.oversample, self.threads // 2, len(self.render_areas)
+
+        progress, one1 = 0, sum(sum(s[1]**2 for s in squares[n::self.threads]) for squares in self.squares)
+
+        arrays, arr_h = [], self.h()
+        for i, (area, squares) in enumerate(zip(self.render_areas, self.squares)):
+            progress_thread = i / len_render_areas
+            self.render_area = area
+            real, imag, y_offset, (w, h) = area
+            pixels = set()
+
+            # get pixels not in set
+            one, s = sum(s[1]**2 for s in squares[n::self.threads]), time.time()
+            for (x0, y0), sidelength in squares[n::self.threads]:
+                s_pixels = self.calculate_square(set(), set(), x0, y0, sidelength)  # get all pixels that are not in set
+                pixels.update(s_pixels)
+                if self.info and n == check_n:
+                    progress += sidelength ** 2
+                    progress_area = progress / one
+                    progress_total = progress_delta + (
+                                progress_thread + progress_area / len_render_areas) / self.oversample ** 2
+                    print(f'\r[INFO] calculate | {functions.progressbar(progress_total, delta_progressbar)} | {functions.progressbar(progress_area)} | {self.round(100 * progress_area, 1)}% {self.round(time.time() - s, 2)}s {self.round(progress_area * (time.time() - s) / one, 2)}s', end='')
+
+            # follow pixel
+            sub_arr, one2, s2 = np.zeros((arr_h, self.w)), len(pixels), time.time()
+            for k, (x, y) in enumerate(pixels):
+                z, c = 0, functions.xy2complex(x + delta_x, y + delta_y + y_offset, real, imag, (w, h))
+                for _ in range(self.max_iterations):
+                    z = self.f(z=z, c=c)
+                    j, i = functions.complex2yx(z, self.real, self.imag, (self.w, arr_h))
+                    if 0 <= i < self.w and 0 <= j < arr_h:
+                        sub_arr[j, i] += 1
+                    else:
+                        break
+
+            arrays.append((sub_arr, y_offset))
+        arr = self.symmetry(arrays)
+
+        if self.info and n == check_n:
+            print(f'\r[INFO] calculate | {functions.progressbar(delta_x + (delta_y + 1/self.oversample)/self.oversample, delta_progressbar)} | waiting for other threads..{60*" "}', end='')
+        return arr, []
+
+    def symmetry(self, arrays: list[np.ndarray]) -> np.ndarray:
+        imag = self.render_areas[0][1]
+        main_arr = arrays[0][0]
+        if self.imag[0] == -self.imag[1]:
+            return main_arr + main_arr[::-1, ]
+        else:
+            raise RangeError(f'invalid range for {type(self)}: real = {self.real}, imag = {self.imag}')
 
 
 def f(z, c):
     return z ** 2 + c
-
 
 
 if __name__ == '__main__':
