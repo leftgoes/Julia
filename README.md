@@ -1,2 +1,4 @@
 # Project Julia
-Python project for rendering Julia sets and the Mandelbrot set given a function
+Julia sets
+Mandelbrot set
+Buddhabrot & Nebulabrot fractal
