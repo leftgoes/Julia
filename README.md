@@ -3,4 +3,4 @@
 - Mandelbrot set
 - Buddhabrot & Nebulabrot fractal
 - Video of Julia sets for different c (not finished)
-- C# code for Buddhabrot (almost finished)
+- C# code for Buddhabrot
