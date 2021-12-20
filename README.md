@@ -10,3 +10,5 @@
   - unexpected result from the do-while-loop (creates random points/numbers)
   - everything seems to be shifted to the right by 0.5
   - ``testPeriods`` however yields expected result (which means ``p_1`` and ``p_2`` should be correct)
+- C extension for ``f`` planned
+  - dramatic performance improvement expected (C vs. Python) since ``f`` takes up the most time by far (followed by ``boxes2arr``)
