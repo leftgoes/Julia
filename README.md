@@ -9,6 +9,8 @@
 - C# code for Buddhabrot
 - C extension for ``f`` planned
   - dramatic performance improvement expected (C vs. Python) since ``f`` takes up the most time by far (followed by ``boxes2arr``)
+- Images (scaled down)
+
 ## C#
 Because Python is such a slow language and this code in particular is heaviliy dependent on speed because it is processor-intensive, implementations in C or even C# will be much faster. I have little experience in these languages however, so I have thus far only implemented the Buddhabrot in C#.
 ### ``p_1``, ``p_2`` and the ``do``-``while``-loop
