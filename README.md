@@ -24,26 +24,3 @@ Currently I am colorizing the images with [GIMP](https://www.gimp.org/), I might
 
 ## Images
 
-![](https://github.com/leftgoes/Julia/blob/main/images/Julia.jpg)
-TEst
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Julia%3B%20f(z)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-2-2i%2C%202%2B2i)%3B%20i(300%2C%202)%3B%20img(1200%2C%201200)%3B%20r2%3B%20th8%3B%20t62.04%3B%20o7.jpg)
-Julia, my profile picture
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Julia%3B%20f(z)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-2%2B2i%2C%20-2%2B2i)%3B%20i(400%2C%202)%3B%20img(3000%2C%203000)%3B%20r2%3B%20th8%3B%20t5.64.jpg)
-Julia
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Buddhabrot.jpg)
-Nebulabrot, coloring method by [Melinda Green](https://superliminal.com/fractals/bbrot/)
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Buddhabrot%3B%20(-2-2i%2C%202%2B2i)%3B%20img(1500%2C%201500)%2C%20k(50k%2C%20500k%2C%2050k%2C%205k)%2C%20n(200k%2C%202m%2C%20100k%2C%2010k)%3B%20th8%3B%20t.jpg)
-Buddhabrot, Composite of multiple renders with different values for ``n`` and ``k``
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Mandelbrot%3B%20(-0.743352131%2B0.131366432i%2C%20-0.743352123%2B0.1313664416i)%3B%20i(10000%2C%202)%3B%20img(6000%2C%20-98524816908)%3B%20r2%3B%20th8%3B%20t1895.96.jpg)
-Mandelbrot, a minibrot
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Mandelbrot%3B%20f(z%2C%20c)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-0.74335212625-0.7433521253i%2C%200.1313664357%2B0.1313664364i)%3B%20i(80000%2C%202)%3B%20img(3000%2C%202211)%3B%20r2%3B%20th8%3B%20t840.86.jpg)
-Mandelbrot, close-up of the minibrot above
-
-![](https://github.com/leftgoes/Julia/blob/main/images/Mandelbrot%3B%20f(z%2C%20c)%20%3D%20z%20%5E%203%20%2B%20c%3B%20(-0.5-0.05i%2C%200.5%2B1.5i)%3B%20i(2000%2C%202)%3B%20img(12000%2C%2021000)%3B%20r2%3B%20th8%3B%20t3626.83%3B%20o3.jpg)
-Mandelbrot, for f(z, c) = z³ + c
