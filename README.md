@@ -39,5 +39,4 @@ my profile picture
 ![Mandelbrot; f(z, c) = z ^ 3 + c; (-0.5-0.05i, 0.5+1.5i); i(2000, 2); img(12000, 21000); r2; th8; t3626.83; o3](https://github.com/leftgoes/Julia/blob/main/images/M_003.jpg)
 
 ![](https://github.com/leftgoes/Julia/blob/main/images/B_000.jpg)
-
 Coloring method by [Melinda Green](https://superliminal.com/fractals/bbrot/)
