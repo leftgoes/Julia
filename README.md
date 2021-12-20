@@ -24,6 +24,9 @@ Currently I am colorizing the images with [GIMP](https://www.gimp.org/), I might
 
 ## Images
 
+![](https://github.com/leftgoes/Julia/blob/main/images/Julia.jpg)
+TEst
+
 ![](https://github.com/leftgoes/Julia/blob/main/images/Julia%3B%20f(z)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-2-2i%2C%202%2B2i)%3B%20i(300%2C%202)%3B%20img(1200%2C%201200)%3B%20r2%3B%20th8%3B%20t62.04%3B%20o7.jpg)
 Julia, my profile picture
 
