@@ -27,4 +27,4 @@ Mandelbrot, a minibrot
 Mandelbrot, close-up of the minibrot above
 
 ![](https://github.com/leftgoes/Julia/blob/main/images/Mandelbrot%3B%20f(z%2C%20c)%20%3D%20z%20%5E%203%20%2B%20c%3B%20(-0.5-0.05i%2C%200.5%2B1.5i)%3B%20i(2000%2C%202)%3B%20img(12000%2C%2021000)%3B%20r2%3B%20th8%3B%20t3626.83%3B%20o3.jpg)
-Mandelbrot, where ![](http://www.sciweavers.org/tex2img.php?eq=f%28z%2C%5C%3Ac%29%20%3D%20%20z%5E%7B3%7D%20%2B%20c&bc=Transparent&fc=White&im=png&fs=12&ff=modern&edit=)
+Mandelbrot, where <img src="http://www.sciweavers.org/tex2img.php?eq=f%28z%2C%5C%3Ac%29%20%3D%20%20z%5E%7B3%7D%20%2B%20c&bc=Transparent&fc=White&im=png&fs=12&ff=modern&edit=0" align="center" border="0" alt="f(z,\:c) =  z^{3} + c" width="118" height="21" />
