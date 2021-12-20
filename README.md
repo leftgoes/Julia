@@ -12,3 +12,6 @@
   - ``testPeriods`` however yields expected result (which means ``p_1`` and ``p_2`` should be correct)
 - C extension for ``f`` planned
   - dramatic performance improvement expected (C vs. Python) since ``f`` takes up the most time by far (followed by ``boxes2arr``)
+## Format
+- if not specified otherwise, the file name will be ``__str__``
+## Images
