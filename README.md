@@ -15,12 +15,22 @@ Because Python is such a slow language and this code in particular is heaviliy d
 The do-while-loop that rejects those complex numbers, that ly inside the main cardioid (period 1) or the main disk (period 2) has a bug which seems to move all pixels to the right by approximately ``0.5``. Doing a simple ``z[0] -= 0.5`` doesn't fix it though, giving up the do-while-loop completly and accepting the performance impact does however. I concluded, that ``p_1`` and ``p_2`` are correct, since ``testPeriods`` shows the main cardioid and disk unshifted, so further analysis is needed.
 
 ## Format
-If not specified otherwise, the file name will be ``__str__``
+If not specified otherwise, the file name will be ``__str__`` and it will be saved as a 16-bit tif.
 
 ## Color
 Currently I am colorizing the images with [GIMP](https://www.gimp.org/), I might implement [historgram coloring](https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set#Histogram_coloring) in the future.
 
 ## Images
+
+![](https://github.com/leftgoes/Julia/blob/main/images/Julia%3B%20f(z)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-2-2i%2C%202%2B2i)%3B%20i(300%2C%202)%3B%20img(1200%2C%201200)%3B%20r2%3B%20th8%3B%20t62.04%3B%20o7.jpg)
+Julia, my profile picture
+
+![](https://github.com/leftgoes/Julia/blob/main/images/Julia%3B%20f(z)%20%3D%20z%20%5E%202%20%2B%20c%3B%20(-2%2B2i%2C%20-2%2B2i)%3B%20i(400%2C%202)%3B%20img(3000%2C%203000)%3B%20r2%3B%20th8%3B%20t5.64.jpg)
+Julia
+
+![](https://github.com/leftgoes/Julia/blob/main/images/Buddhabrot.jpg)
+Nebulabrot, coloring method by [Melinda Green](https://superliminal.com/fractals/bbrot/)
+
 ![](https://github.com/leftgoes/Julia/blob/main/images/Buddhabrot%3B%20(-2-2i%2C%202%2B2i)%3B%20img(1500%2C%201500)%2C%20k(50k%2C%20500k%2C%2050k%2C%205k)%2C%20n(200k%2C%202m%2C%20100k%2C%2010k)%3B%20th8%3B%20t.jpg)
 Buddhabrot, Composite of multiple renders with different values for ``n`` and ``k``
 
