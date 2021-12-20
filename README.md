@@ -24,7 +24,6 @@ Currently I am colorizing the images with [GIMP](https://www.gimp.org/), I might
 
 ## Images
 ![Julia; f(z) = z ^ 2 + c; (-2-2i, 2+2i); i(300, 2); img(1200, 1200); r2; th8; t62.04; o7](https://github.com/leftgoes/Julia/blob/main/images/J_002.jpg)
-
 my profile picture
 
 ![Julia; f(z) = z ^ 2 + c; (-2+2i, -2+2i); i(400, 2); img(3000, 3000); r2; th8; t5.64](https://github.com/leftgoes/Julia/blob/main/images/J_001.jpg)
