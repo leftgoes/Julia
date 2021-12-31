@@ -3,10 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
+// using System.Threading.Tasks;
+// using System.Threading;
 
 
 namespace Buddhabrot
