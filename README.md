@@ -13,8 +13,6 @@
 
 ## C#
 Because Python is such a slow language and this code in particular is heaviliy dependent on speed because it is processor-intensive, implementations in C or even C# will be much faster. I have little experience in these languages however, so I have thus far only implemented the Buddhabrot in C#.
-### ``p_1``, ``p_2`` and the ``do``-``while``-loop
-The do-while-loop that rejects those complex numbers, that ly inside the main cardioid (period 1) or the main disk (period 2) has a bug which seems to move all pixels to the right by approximately ``0.5``. Doing a simple ``z[0] -= 0.5`` doesn't fix it though, giving up the do-while-loop completly and accepting the performance impact does however. I concluded, that ``p_1`` and ``p_2`` are correct, since ``testPeriods`` shows the main cardioid and disk unshifted, so further analysis is needed.
 
 ## Format
 If not specified otherwise, the file name will be ``__str__`` and it will be saved as a 16-bit tif.
